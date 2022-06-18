@@ -1,0 +1,120 @@
+﻿@using MvcWepApp2.Models;
+@model OgrenciDTO
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-8" style="margin-top:50px;">
+
+    <table class="table table-responsive table-striped">
+
+        <tr>
+            <td>Ogrenci Id</td>
+            <td>Ogrenci Adı</td>
+            <td>Ogrenci Numarası</td>
+            <td>Sınıf Adı</td>
+            <td>Sınıf Kodu</td>
+
+            <td> <button class="btn btn-sm btn-success" id="btnEkleme" onclick="EklemeMenusuGoster()" title="Yeni ekle">+</button></td>
+        </tr>
+        @using (Html.BeginForm("Ekle", "Student", FormMethod.Post))
+        {
+            <tr id="eklemeMenusu" class="hidden">
+                <td></td>
+                <td>
+                    <input class="form-control" name="AdSoyad" />
+                </td>
+                <td>
+                    <input class="form-control" name="Numara" />
+                </td>
+                <td>
+                    
+                    <select class="form-control" name="SinifId">
+                        <option value="0" selected></option>
+                        @foreach (Sinif _sinif in Model.Siniflar)
+                        {
+                            <option value="@_sinif.Id">@_sinif.SinifAdi</option>
+                        }
+
+
+                    </select>
+                </td>
+
+
+                <td><button class="btn btn-success">Kaydet</button></td>
+            </tr>
+        }
+
+        @foreach (Ogrenci _ogrenci in Model.Ogrenciler)
+        {
+            <tr>
+                <td>
+                    @_ogrenci.Id
+                </td>
+                <td>
+                    @_ogrenci.AdSoyad
+                </td>
+               
+                <td>
+                    @_ogrenci.Numara
+                </td>
+                <td>
+                    @_ogrenci._Sinif.SinifAdi
+                </td>
+                <td>
+                    @_ogrenci._Sinif.SinifKodu
+                </td>
+                <td>
+                    <a href="/Profile/Index?Id=@_ogrenci.Id" class="btn btn-sm btn-primary"><i class="fa fa-user-circle"></i></a>
+                    <a href="#" class="btn btn-sm btn-danger" onclick="KullaniciSil('@_ogrenci.Id')"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</div>
+<div class="col-md-4" style="margin-top:50px;">
+    Toplam Öğrenci Sayısı: @Model.Ogrenciler.Count
+    <br />
+    Atanmış Öğrenci Sayısı: @Model.Ogrenciler.Where(x => x._Sinif.SinifAdi != "").Count()
+    <br />
+    Atanmamış Öğrenci Sayısı: @Model.Ogrenciler.Where(x => x._Sinif.SinifAdi == "").Count()
+</div>
+<script type="text/javascript">
+
+    function EklemeMenusuGoster() {
+
+        if ($("#eklemeMenusu").attr("class") == 'hidden') {
+            $("#eklemeMenusu").removeClass("hidden");
+            $("#btnEkleme").html("X");
+            $("#btnEkleme").removeClass("btn-succsess");
+            $("#btnEkleme").addClass("btn-danger");
+            $("#btnEkleme").attr("title", "Eklemeyi iptal");
+        }
+        else {
+            $("#eklemeMenusu").addClass("hidden");
+            $("#btnEkleme").html("+");
+            $("#btnEkleme").removeClass("btn-danger");
+            $("#btnEkleme").addClass("btn-succsess");
+            $("#btnEkleme").attr("title", "Yeni ekle");
+        }
+
+
+
+    }
+
+
+    
+
+    
+
+    function KullaniciSil(id) {
+
+        Ajax('/Student/Sil', "{Id: " + id + "}", true);
+
+    }
+
+</script>
+

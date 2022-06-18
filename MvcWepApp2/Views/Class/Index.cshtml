@@ -1,0 +1,85 @@
+﻿@using MvcWepApp2.Models;
+@model List<Sinif>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-12" style="margin-top:50px;">
+    <table class="table table-responsive table-striped">
+        <thead>
+            <tr>
+                <td>Sınıf Id</td>
+                <td>Sınıf Adı</td>
+                <td>Sınıf Kodu</td>
+                <td> <button class="btn btn-sm btn-primary" id="btnEkleme" onclick="EklemeMenusuGoster()" title="Yeni ekle">+</button></td>
+            </tr>
+        </thead>
+        <tbody>
+
+            @using (Html.BeginForm("Ekle", "Class", FormMethod.Post))
+            {
+                <tr id="eklemeMenusu" class="hidden">
+                    <td></td>
+                    <td>
+                        <input class="form-control" name="sinifAdi" />
+                    </td>
+                    <td>
+                        <input class="form-control" name="sinifKodu" />
+                    </td>
+                    <td><button class="btn btn-primary">Kaydet</button></td>
+                </tr>
+            }
+
+            @foreach (Sinif _sinif in Model)
+            {
+                <tr>
+                    <td>
+                        @_sinif.Id
+                    </td>
+                    <td>
+                        @_sinif.SinifAdi
+                    </td>
+                    <td>
+                        @_sinif.SinifKodu
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-sm btn-danger" onclick="SinifSil(@_sinif.Id)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        <a href="/Class/DersProgrami?Id=@_sinif.Id" class="btn btn-sm btn-primary"><i class="fa fa-user-circle"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+
+    function EklemeMenusuGoster() {
+
+        if ($("#eklemeMenusu").attr("class") == 'hidden') {
+            $("#eklemeMenusu").removeClass("hidden");
+            $("#btnEkleme").html("X");
+            $("#btnEkleme").removeClass("btn-primary");
+            $("#btnEkleme").addClass("btn-danger");
+            $("#btnEkleme").attr("title", "Eklemeyi iptal");
+        }
+        else {
+            $("#eklemeMenusu").addClass("hidden");
+            $("#btnEkleme").html("+");
+            $("#btnEkleme").removeClass("btn-danger");
+            $("#btnEkleme").addClass("btn-primary");
+            $("#btnEkleme").attr("title", "Yeni ekle");
+        }
+
+
+
+    }
+
+    function SinifSil(id) {
+
+        Ajax('/Class/Sil', "{Id: " + id + "}", true);
+
+    }
+
+</script>

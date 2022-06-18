@@ -1,0 +1,46 @@
+﻿@{
+    Layout = null;
+}
+<html>
+
+<head>
+    <title>Login</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+
+
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+            {
+            <div class="col-md-offset-5">
+                <h2><b>Yönetici Girişi</b></h2>
+                <br />
+                <br />
+                <div class="form-group">
+                    <label>Kullanıcı Adı</label>
+                    <input type="text" name="kullaniciAdi" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Şifre</label>
+                    <input type="password" name="sifre" class="form-control" />
+                </div>
+                <button class="btn btn-primary">GİRİŞ YAP</button>
+                <a href="/Home/TeacherLogin" class="btn btn-success">Eğitmen Girişi</a>
+            </div>
+            }
+
+
+        </div>
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+</body>
+
+</html>

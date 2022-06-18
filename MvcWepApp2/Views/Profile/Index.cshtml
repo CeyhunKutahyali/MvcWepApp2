@@ -1,0 +1,60 @@
+﻿@using MvcWepApp2.Models;
+@model ProfileDTO
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-12" style="margin-top:50px;">
+
+    <div class="col-md-4">
+
+        <table class="table table-striped">
+            <tr>
+                <td><b>Ad Soyad</b></td>
+                <td>:</td>
+                <td>@Model._Ogrenci.AdSoyad</td>
+            </tr>
+            <tr>
+                <td><b>Öğrenci No</b></td>
+                <td>:</td>
+                <td>@Model._Ogrenci.Numara</td>
+            </tr>
+            <tr>
+                <td><b>Eğitim Sınıfı</b></td>
+                <td>:</td>
+                <td>@Model._Ogrenci._Sinif.SinifAdi <i onclick="DuzenleMenusuGoster()" class="fa fa-pencil-square"></i></td>
+            </tr>
+            <tr class="hidden" id="duzenleMenusu">
+                <td><b>Yeni Sınıf Seçiniz</b></td>
+                <td>:</td>
+                <td>
+                    @using (Html.BeginForm("Duzenle","Profile",FormMethod.Post))
+                    {
+                        <input name="Id" value="@Convert.ToInt32(Request.QueryString["Id"])" class="hidden" />
+                        <select class="form-control" name="sinifId">
+                            <option value="0" selected></option>
+                            @foreach (Sinif _sinif in Model.Siniflar)
+                            {
+                                <option value="@_sinif.Id">@_sinif.SinifAdi</option>
+                                }
+
+
+                        </select>
+                        <button class="btn btn-sm btn-primary">Kaydet</button>
+                    }
+
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+</div>
+<script type="text/javascript">
+
+    function DuzenleMenusuGoster() {
+        $("#duzenleMenusu").removeClass("hidden");
+    }
+
+</script>

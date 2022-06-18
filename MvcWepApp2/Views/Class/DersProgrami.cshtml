@@ -1,0 +1,31 @@
+﻿@using MvcWepApp2.Models;
+@model Sinif
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <br />
+    <br />
+    <input class="hidden" name="Id" value="@Request.QueryString["Id"].ToString()"/>
+    <div class="row">
+        <div class="col-md-3">
+            <label>Ders Adı :</label>
+            <input type="text" name="dersAdi" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label>Ders Başlangıç :</label>
+            <input type="datetime-local" name="dersBaslangic" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label>Ders Bitiş :</label>
+            <input type="datetime-local" name="dersBitis" class="form-control" />
+        </div>
+        <br />
+        <div >
+            <button class="btn btn-success" style="margin-top:5px">Kaydet</button>
+        </div>
+       
+    </div>
+</div>
